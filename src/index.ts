@@ -1,26 +1,26 @@
 import type { Plugin } from "@opencode-ai/plugin"
 import { existsSync } from "node:fs"
-import { homedir } from "node:os"
-import { join } from "node:path"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
 
-export const GitGuardPlugin: Plugin = async ({ $, client, directory }) => {
-  const localPath = join(directory, ".agents/scripts/git-guard.sh")
-  const globalPath = join(homedir(), ".agents/scripts/git-guard.sh")
-  const scriptPath = existsSync(localPath) ? localPath : existsSync(globalPath) ? globalPath : null
+const scriptPath = join(dirname(fileURLToPath(import.meta.url)), "../assets/git-guard.sh")
 
-  if (!scriptPath) {
+export const GitGuardPlugin: Plugin = async ({ $, client }) => {
+  const available = existsSync(scriptPath)
+
+  if (!available) {
     await client.app.log({
       body: {
         service: "git-guard",
         level: "error",
-        message: `git-guard.sh not found at ${localPath} or ${globalPath}; skipping checks`,
+        message: `git-guard.sh not found at ${scriptPath}; skipping checks`,
       },
     })
   }
 
   return {
     "tool.execute.before": async (input, output) => {
-      if (!scriptPath || input.tool !== "bash") return
+      if (!available || input.tool !== "bash") return
 
       const command: string = output.args.command ?? ""
       const payload = JSON.stringify({ command })

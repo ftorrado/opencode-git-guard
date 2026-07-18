@@ -1,0 +1,7 @@
+{
+  "name": "scratch-test",
+  "private": true,
+  "dependencies": {
+    "opencode-git-guard": "file:../opencode-git-guard"
+  }
+}

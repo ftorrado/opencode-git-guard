@@ -1,17 +1,27 @@
 {
   "name": "opencode-git-guard",
   "version": "0.1.0",
-  "description": "OpenCode plugin",
+  "description": "Git guardrails plugin for OpenCode",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "repository": "derekbar90/opencode-conductor",
+  "keywords": [
+    "opencode",
+    "plugin",
+    "ai-guardrails",
+    "git"
+  ],
+  "author": "Filipe Torrado",
+  "license": "Apache-2.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "files": [
-    "dist"
+    "src",
+    "assets"
   ],
   "scripts": {
-    "build": "tsc",
-    "typecheck": "tsc --noEmit",
-    "dev": "tsc --watch"
+    "typecheck": "tsc",
+    "dev": "tsc --watch",
+    "test": "node --test"
   },
   "peerDependencies": {
     "@opencode-ai/plugin": "^1.18.3"
